@@ -4,7 +4,7 @@
 
 ## Build contract
 
-[The workflow](https://github.com/waveshareteam/board-atlas/blob/main/.github/workflows/ci.yml)
+[The workflow](https://github.com/waveshareteam/waveshare-boards/blob/main/.github/workflows/ci.yml)
 discovers first-party board definitions and builds `ci/test_app` for each selected
 board. It does not scan upstream board packs or publish firmware artifacts.
 
@@ -27,11 +27,13 @@ consistent with its 3.0.x constraints and required CMake interface version 5;
 2.5.0 cannot serve that interface. Revisit these tooling pins when upgrading the matrix and
 rerun generation and compilation on both IDF lines.
 
-Board Manager 0.7.2 discovers managed packs by a name containing `boards` and
-local overrides by board-style names such as the `_boards` suffix. The component
-name `board_atlas_boards` satisfies both rules; preserve it when publishing or
-checking out the integration test. Merely adding manifest tags is insufficient
-for this generator version.
+Board Manager 0.7.2 discovers managed packs by a directory name containing
+`boards`, so `waveshare/waveshare-boards` is discovered after registry installation.
+Local clones under an application's `components/` directory are also scanned.
+The integration test instead uses `override_path`; this version's override-name
+filter recognizes underscore-based board names but not `waveshare-boards`.
+CI therefore passes `-c ../..` to select the repository explicitly. This is the
+official customer-path option and requires no changes to Board Manager.
 
 ## Change routing
 
@@ -61,7 +63,7 @@ changing public documentation.
 
 ## Local reproduction
 
-Clone into a directory named `board_atlas_boards`. With the desired ESP-IDF environment
+Clone into a directory named `waveshare-boards`. With the desired ESP-IDF environment
 active, install Component Manager 2.5.0 for IDF 5.5 or 3.0.3 for IDF 6.1,
 then run from that directory:
 
@@ -73,10 +75,10 @@ python scripts/update_supported_boards_table.py --check
 python ci/scripts/check_docs.py
 python ci/scripts/board_pack.py matrix --all
 python ci/scripts/board_pack.py pin 0.7.2
-idf.py -C ci/test_app bmgr -l
-idf.py -C ci/test_app bmgr -b esp32_s3_touch_lcd_7
+idf.py -C ci/test_app bmgr -l -c ../..
+idf.py -C ci/test_app bmgr -b esp32_s3_touch_lcd_7 -c ../..
 idf.py -C ci/test_app build
-compote component pack --name board_atlas_boards
+compote component pack --name waveshare-boards
 ```
 
 Use a fresh checkout for each IDF/Board Manager combination so generated

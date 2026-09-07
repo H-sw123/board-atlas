@@ -4,7 +4,7 @@
 
 ## 编译约定
 
-[工作流](https://github.com/waveshareteam/board-atlas/blob/main/.github/workflows/ci.yml)
+[工作流](https://github.com/waveshareteam/waveshare-boards/blob/main/.github/workflows/ci.yml)
 发现第一方板卡定义，并为每块选中的板卡编译 `ci/test_app`。
 它不扫描上游板卡包，也不发布固件产物。
 
@@ -22,9 +22,11 @@ Kconfig 条件依赖的处理问题。辅助工具为 **esp-bmgr-assist 0.8.3**�
 IDF 6.1 使用符合官方 3.0.x 约束的 Component Manager **3.0.3**，以支持 CMake 接口版本 5；2.5.0 不支持该接口。
 升级矩阵时重新评估这些工具版本，并在两个 IDF 版本线上重新验证生成和编译。
 
-Board Manager 0.7.2 按名称中的 `boards` 识别托管板卡包，按 `_boards` 等板卡后缀识别本地覆盖依赖。
-`board_atlas_boards` 同时满足这两项规则，发布或检出集成测试时请保留该名称。
-仅添加清单标签不足以满足此版本生成器的扫描规则。
+Board Manager 0.7.2 按目录名中的 `boards` 识别托管板卡包，因此从组件库安装
+`waveshare/waveshare-boards` 后可以自动发现。克隆到应用 `components/` 目录中的板卡包也会被扫描。
+集成测试使用 `override_path`；此版本的覆盖依赖名称筛选只识别下划线形式的板卡名称，
+不识别 `waveshare-boards`。因此 CI 通过官方的 customer-path 参数 `-c ../..`
+显式指定仓库路径，无需修改 Board Manager。
 
 ## 变更路由
 
@@ -53,7 +55,7 @@ Board Manager 0.7.2 按名称中的 `boards` 识别托管板卡包，按 `_board
 
 ## 本地复现
 
-将仓库克隆到名为 `board_atlas_boards` 的目录，激活所需的 ESP-IDF 环境，为 IDF 5.5 安装 Component Manager 2.5.0，为 IDF 6.1 安装 3.0.3，然后在该目录执行：
+将仓库克隆到名为 `waveshare-boards` 的目录，激活所需的 ESP-IDF 环境，为 IDF 5.5 安装 Component Manager 2.5.0，为 IDF 6.1 安装 3.0.3，然后在该目录执行：
 
 ```bash
 python -m pip install PyYAML==6.0.3 esp-bmgr-assist==0.8.3
@@ -63,10 +65,10 @@ python scripts/update_supported_boards_table.py --check
 python ci/scripts/check_docs.py
 python ci/scripts/board_pack.py matrix --all
 python ci/scripts/board_pack.py pin 0.7.2
-idf.py -C ci/test_app bmgr -l
-idf.py -C ci/test_app bmgr -b esp32_s3_touch_lcd_7
+idf.py -C ci/test_app bmgr -l -c ../..
+idf.py -C ci/test_app bmgr -b esp32_s3_touch_lcd_7 -c ../..
 idf.py -C ci/test_app build
-compote component pack --name board_atlas_boards
+compote component pack --name waveshare-boards
 ```
 
 每个 IDF / Board Manager 组合使用独立干净副本，避免生成组件、依赖锁和 sdkconfig 跨环境混用。

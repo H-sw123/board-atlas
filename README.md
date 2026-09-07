@@ -1,10 +1,10 @@
 <div align="center">
 
-<h1>Waveshare Board Atlas</h1>
+<h1>Waveshare Boards</h1>
 
 <p><strong>Waveshare board definitions for ESP Board Manager</strong></p>
 
-<a href="https://github.com/waveshareteam/board-atlas/actions/workflows/ci.yml"><img src="https://github.com/waveshareteam/board-atlas/actions/workflows/ci.yml/badge.svg" alt="Build"></a>
+<a href="https://github.com/waveshareteam/waveshare-boards/actions/workflows/ci.yml"><img src="https://github.com/waveshareteam/waveshare-boards/actions/workflows/ci.yml/badge.svg" alt="Build"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" alt="License"></a>
 
 English | [简体中文](README_ZH.md)
@@ -46,7 +46,7 @@ into an **existing ESP-IDF application's** component directory:
 
 ```bash
 mkdir -p components
-git clone https://github.com/waveshareteam/board-atlas.git components/board_atlas_boards
+git clone https://github.com/waveshareteam/waveshare-boards.git components/waveshare-boards
 python -m pip install esp-bmgr-assist==0.8.3
 idf.py bmgr -l
 idf.py bmgr -b esp32_s3_touch_lcd_7
@@ -56,7 +56,7 @@ idf.py build
 Use the Component Manager version from the active IDF environment; the tested
 versions for each IDF line are listed in [the CI guide](docs/CI.md).
 
-Keep the local directory name `board_atlas_boards`: ESP-IDF uses the directory name as
+Keep the local directory name `waveshare-boards`: ESP-IDF uses the directory name as
 the component name. The pack declares `espressif/esp_board_manager` as a public
 dependency. Applications can include `esp_board_manager.h` and initialize the
 selected board using `esp_board_manager_init()`.
@@ -65,10 +65,10 @@ After maintainers publish the component, install it from the registry instead
 of keeping the local clone:
 
 ```bash
-idf.py add-dependency "waveshare/board_atlas_boards"
+idf.py add-dependency "waveshare/waveshare-boards"
 ```
 
-The intended registry identity is `waveshare/board_atlas_boards`; a repository version
+The intended registry identity is `waveshare/waveshare-boards`; a repository version
 or a passing packaging check does not by itself mean that version is published.
 
 ## 🗂️ Repository layout

@@ -170,12 +170,12 @@ class BoardPackTests(unittest.TestCase):
 
     def test_pin_is_exact_and_preserves_pack(self):
         self.write('ci/test_app/main/idf_component.yml',
-                   'dependencies:\n  espressif/esp_board_manager:\n    version: "*"\n  board_atlas_boards:\n    override_path: ../../../\n')
+                   'dependencies:\n  espressif/esp_board_manager:\n    version: "*"\n  waveshare-boards:\n    override_path: ../../../\n')
         result, _ = self.cli('pin', '0.7.2')
         self.assertEqual(0, result.returncode)
         deps = bp.load_yaml(self.root / 'ci/test_app/main/idf_component.yml')['dependencies']
         self.assertEqual('==0.7.2', deps['espressif/esp_board_manager']['version'])
-        self.assertEqual('../../../', deps['board_atlas_boards']['override_path'])
+        self.assertEqual('../../../', deps['waveshare-boards']['override_path'])
         for value in ('*', '0.7.2;false', '1.0.0-rc1'):
             with self.assertRaises(ValueError):
                 bp.pin(self.root, value)

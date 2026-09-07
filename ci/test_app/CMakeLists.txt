@@ -1,3 +1,3 @@
 cmake_minimum_required(VERSION 3.16)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(board_atlas_boards_ci)
+project(waveshare_boards_ci)

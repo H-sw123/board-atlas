@@ -16,7 +16,7 @@ concurrency:
 
 defaults:
   run:
-    working-directory: board_atlas_boards
+    working-directory: waveshare-boards
 
 jobs:
   validate:
@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: board_atlas_boards
+          path: waveshare-boards
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
@@ -57,7 +57,7 @@ jobs:
             python ci/scripts/board_pack.py matrix --all
           fi
       - name: Validate component package without credentials
-        run: compote component pack --name board_atlas_boards
+        run: compote component pack --name waveshare-boards
 
   build:
     name: ${{ matrix.board }} / ${{ matrix.idf }} / BMGR ${{ matrix.bmgr }}
@@ -70,20 +70,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: board_atlas_boards
+          path: waveshare-boards
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Generate and compile board definitions
         uses: espressif/esp-idf-ci-action@v1
         with:
           esp_idf_version: ${{ matrix.idf }}
           target: ${{ matrix.target }}
-          path: board_atlas_boards/ci/test_app
+          path: waveshare-boards/ci/test_app
           command: |
             set -eu
             python -m pip install '${{ matrix.component_manager }}' '${{ matrix.bmgr_assist }}'
             python ../scripts/board_pack.py pin '${{ matrix.bmgr }}'
-            idf.py bmgr -l
-            idf.py bmgr -b '${{ matrix.board }}'
+            idf.py bmgr -l -c ../..
+            idf.py bmgr -b '${{ matrix.board }}' -c ../..
             idf.py build
 
   result:
