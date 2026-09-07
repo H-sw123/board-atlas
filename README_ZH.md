@@ -42,7 +42,7 @@
 
 ```bash
 mkdir -p components
-git clone https://github.com/waveshareteam/board-atlas.git components/board_atlas
+git clone https://github.com/waveshareteam/board-atlas.git components/board_atlas_boards
 python -m pip install esp-bmgr-assist==0.8.3
 idf.py bmgr -l
 idf.py bmgr -b esp32_s3_touch_lcd_7
@@ -51,17 +51,17 @@ idf.py build
 
 使用当前 IDF 环境配套的 Component Manager；各 IDF 版本线测试过的版本见 [CI 指南](docs/CI_ZH.md)。
 
-本地目录名请使用 `board_atlas`，因为 ESP-IDF 使用目录名作为组件名。
+本地目录名请使用 `board_atlas_boards`，因为 ESP-IDF 使用目录名作为组件名。
 组件包已经公开依赖 `espressif/esp_board_manager`；应用可以包含
 `esp_board_manager.h`，并通过 `esp_board_manager_init()` 初始化所选板卡。
 
 维护者正式发布组件后，可以通过组件库安装，替代本地克隆：
 
 ```bash
-idf.py add-dependency "waveshare/board_atlas"
+idf.py add-dependency "waveshare/board_atlas_boards"
 ```
 
-计划使用的组件库名称为 `waveshare/board_atlas`。仓库里的版本号或打包检查通过，
+计划使用的组件库名称为 `waveshare/board_atlas_boards`。仓库里的版本号或打包检查通过，
 不代表该版本已经在组件库发布。
 
 ## 🗂️ 仓库结构

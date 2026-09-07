@@ -46,7 +46,7 @@ into an **existing ESP-IDF application's** component directory:
 
 ```bash
 mkdir -p components
-git clone https://github.com/waveshareteam/board-atlas.git components/board_atlas
+git clone https://github.com/waveshareteam/board-atlas.git components/board_atlas_boards
 python -m pip install esp-bmgr-assist==0.8.3
 idf.py bmgr -l
 idf.py bmgr -b esp32_s3_touch_lcd_7
@@ -56,7 +56,7 @@ idf.py build
 Use the Component Manager version from the active IDF environment; the tested
 versions for each IDF line are listed in [the CI guide](docs/CI.md).
 
-Keep the local directory name `board_atlas`: ESP-IDF uses the directory name as
+Keep the local directory name `board_atlas_boards`: ESP-IDF uses the directory name as
 the component name. The pack declares `espressif/esp_board_manager` as a public
 dependency. Applications can include `esp_board_manager.h` and initialize the
 selected board using `esp_board_manager_init()`.
@@ -65,10 +65,10 @@ After maintainers publish the component, install it from the registry instead
 of keeping the local clone:
 
 ```bash
-idf.py add-dependency "waveshare/board_atlas"
+idf.py add-dependency "waveshare/board_atlas_boards"
 ```
 
-The intended registry identity is `waveshare/board_atlas`; a repository version
+The intended registry identity is `waveshare/board_atlas_boards`; a repository version
 or a passing packaging check does not by itself mean that version is published.
 
 ## 🗂️ Repository layout

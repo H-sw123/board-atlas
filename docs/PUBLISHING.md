@@ -5,13 +5,13 @@
 ## Component identity
 
 The GitHub repository is `waveshareteam/board-atlas`. The registry identity is
-**`waveshare/board_atlas`**, using the same namespace as the
+**`waveshare/board_atlas_boards`**, using the same namespace as the
 [Waveshare component upload workflow](https://github.com/waveshareteam/Waveshare-ESP32-components/blob/master/.github/workflows/upload_component.yml).
 Keep the `esp_board_manager`, `board_manager`, and `boards` tags in the manifest
 so Board Manager can discover the pack.
 
 No registry version is created by a pull request, a merge, or normal CI.
-`compote component pack --name board_atlas` validates the package locally without
+`compote component pack --name board_atlas_boards` validates the package locally without
 a token. Generated archives remain under ignored `dist/`.
 
 ## Configure credentials once
@@ -50,7 +50,7 @@ it does not affect ordinary PR CI.
 2. Create a `v<version>` tag on that reviewed commit, for example `v0.1.0`.
 3. Run **Publish board pack** from that tag and clear **dry_run**. The workflow
    checks that the tag matches the manifest and that the commit belongs to `main`,
-   reruns all board builds, then uploads `waveshare/board_atlas`.
+   reruns all board builds, then uploads `waveshare/board_atlas_boards`.
 4. Verify the registry version page and install it into a fresh application.
 
 Published versions are immutable. A duplicate version fails rather than silently

@@ -27,6 +27,12 @@ consistent with its 3.0.x constraints and required CMake interface version 5;
 2.5.0 cannot serve that interface. Revisit these tooling pins when upgrading the matrix and
 rerun generation and compilation on both IDF lines.
 
+Board Manager 0.7.2 discovers managed packs by a name containing `boards` and
+local overrides by board-style names such as the `_boards` suffix. The component
+name `board_atlas_boards` satisfies both rules; preserve it when publishing or
+checking out the integration test. Merely adding manifest tags is insufficient
+for this generator version.
+
 ## Change routing
 
 The lightweight metadata, unit-test, navigation, and packaging checks run on every
@@ -55,7 +61,7 @@ changing public documentation.
 
 ## Local reproduction
 
-Clone into a directory named `board_atlas`. With the desired ESP-IDF environment
+Clone into a directory named `board_atlas_boards`. With the desired ESP-IDF environment
 active, install Component Manager 2.5.0 for IDF 5.5 or 3.0.3 for IDF 6.1,
 then run from that directory:
 
@@ -70,7 +76,7 @@ python ci/scripts/board_pack.py pin 0.7.2
 idf.py -C ci/test_app bmgr -l
 idf.py -C ci/test_app bmgr -b esp32_s3_touch_lcd_7
 idf.py -C ci/test_app build
-compote component pack --name board_atlas
+compote component pack --name board_atlas_boards
 ```
 
 Use a fresh checkout for each IDF/Board Manager combination so generated
